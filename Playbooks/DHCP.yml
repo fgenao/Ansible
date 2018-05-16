@@ -1,0 +1,11 @@
+---
+- name: Target Workstation defaults
+  hosts: '{{ target }}' 
+  gather_facts: False
+  remote_user: push
+  become: true
+  tasks:
+
+# Copy dhclient.conf for prepend DNS Server 
+    - name: Enable Whitelisting. Changes dhclient.conf, ensures whitelist dns server For Sales.
+      copy: src=files/resolv.conf dest=/etc/resolv.conf  mode=0644
