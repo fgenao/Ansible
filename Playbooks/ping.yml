@@ -1,0 +1,10 @@
+---
+- name: Agent Workstation defaults
+  hosts: '{{ target }}'
+  gather_facts: False
+  remote_user: push
+  become: true
+  tasks:
+
+# Ping the target
+    - ping:
