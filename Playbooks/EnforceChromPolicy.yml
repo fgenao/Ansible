@@ -1,0 +1,25 @@
+---
+- name: Target Workstation defaults
+  hosts: '{{ target }}' 
+  gather_facts: False
+  remote_user: push
+  become: true
+  tasks:
+
+# Enforce Chome policy UBUNTU
+    - name: Enforce policy for Chrome
+      file: path=/etc/opt/chrome/policies/managed state=directory mode=75
+      tags:
+        - googlepolicy
+
+    - name: Copy over chrome policy file for Sale Agents
+      copy: src=files/cuore_policy.json dest=/etc/opt/chrome/policies/managed/ mode=0644
+      when: "'whitelist' not in group_names"
+      tags:
+        - googlepolicy
+
+    - name: Copy chrome policy file for WhiteListed
+      copy: src=files/cuore_policy2.json dest=/etc/opt/chrome/policies/managed/cuore_policy.json mode=0644
+      when: "'whitelist' in group_names"
+      tags:
+        - googlepolicy
