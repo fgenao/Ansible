@@ -1,0 +1,12 @@
+---
+- name: Agent Workstation defaults
+  hosts: '{{ target }}'
+  gather_facts: False
+  remote_user: push
+  become: true
+  tasks:
+
+# Copy ldap.conf to the target Desktop
+
+    - name: copy ldap.conf to Agent Desktop
+      copy: src=files/ldap.conf dest=/etc/ mode=0644
