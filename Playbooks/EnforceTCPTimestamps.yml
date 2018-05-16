@@ -1,0 +1,14 @@
+---
+- name: Target Workstation defaults
+  hosts: '{{ target }}' 
+  gather_facts: False
+  remote_user: push
+  become: true
+  tasks:
+
+# Enforce TCP IPV4 Timestamps
+    - name: Copy sysctl.conf config file for desktop.
+      copy: src=files/sysctl.conf dest=/etc/ mode=0644
+
+    - name: Run sysctl -p that reload sysctl.
+      command: sysctl -p
