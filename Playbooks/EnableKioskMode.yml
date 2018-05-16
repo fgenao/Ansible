@@ -1,0 +1,14 @@
+---
+- name: Target Workstation defaults
+  hosts: '{{ target }}' 
+  gather_facts: False
+  remote_user: push
+  become: true
+  tasks:
+
+# Enable Kiosk Mode
+    - name: Ensure Kiosk directory exists.
+      file: path=/etc/xdg/xfce4/kiosk/ state=directory mode=0755
+
+    - name: Copy over Kiosk config. file.
+      copy: src=files/kioskrc dest=/etc/xdg/xfce4/kiosk/ mode=0644
