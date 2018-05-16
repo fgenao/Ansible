@@ -1,0 +1,24 @@
+---
+- name: Target Workstation defaults
+  hosts: '{{ target }}' 
+  gather_facts: False
+  remote_user: push
+  become: true
+  tasks:
+
+# Remove the xscreensaver from UBUNTU
+
+    - name: Remove "xscreensaver" package
+      apt:
+         name: xscreensaver
+         state: absent
+
+    - name: Remove xscreensaver Sourcelist
+      file:
+        state: absent
+        path: "/etc/apt/sources.list.d/hda-me-ubuntu-xscreensaver-xenial.list"
+
+    - name: Remove xscreensaver Sourcelist.save
+      file:
+        state: absent
+        path: "/etc/apt/sources.list.d/hda-me-ubuntu-xscreensaver-xenial.list.save"
