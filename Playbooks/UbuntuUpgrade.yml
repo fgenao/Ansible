@@ -1,0 +1,20 @@
+---
+- name: Target Workstation defaults
+  hosts: '{{ target }}'
+  gather_facts: False
+  remote_user: push
+  become: true
+  tasks:
+
+# Configure Automatic updates on Ubuntu Target
+
+    - name: Upgrade all packages to the latest version
+      apt:
+        update_cache: yes
+        upgrade: safe
+
+    - name: Update file for unattended upgrades
+      copy: src=files/50unattended-upgrades dest=/etc/apt/apt.conf.d/ backup=yes mode=0644
+
+    - name: Update (auto-install security updates) 10periodic file
+      copy: src=files/10periodic dest=/etc/apt/apt.conf.d/ backup=yes mode=0644
